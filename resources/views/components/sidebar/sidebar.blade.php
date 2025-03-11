@@ -1,4 +1,4 @@
-<nav class="text-gray-500 mr-5 ml-3 mt-3" x-show="sidebar"
+<nav class="text-gray-500 mr-5 ml-3 mt-3" x-cloak x-show="sidebar"
 x-transition:enter="transition transform duration-100 ease-in"
 x-transition:enter-start="-translate-x-full opacity-0"
 x-transition:enter-end="translate-x-0 opacity-100"
@@ -7,7 +7,7 @@ x-transition:leave-start="translate-x-0 opacity-100"
 x-transition:leave-end="-translate-x-full opacity-0"
 >
   <h2 class="text-bold mb-2 text-xl flex items-center text-black">
-      <svg class="w-5 cursor-pointer hover:bg-gray-200 hover:rounded-2xl hover:p-0.5" @click="sidebar=false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <svg class="w-5 cursor-pointer hover:bg-gray-200 hover:rounded-2xl hover:p-0.5" @click="hideSidebar" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
       </svg>
 
