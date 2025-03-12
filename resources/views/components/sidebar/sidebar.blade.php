@@ -1,4 +1,4 @@
-<nav class="text-gray-500 mr-5 ml-3 mt-3" x-cloak x-show="sidebar"
+<nav class="text-gray-500 mr-5 ml-3 mt-3 w-32" x-cloak x-show="sidebar"
 x-transition:enter="transition transform duration-100 ease-in"
 x-transition:enter-start="-translate-x-full opacity-0"
 x-transition:enter-end="translate-x-0 opacity-100"
