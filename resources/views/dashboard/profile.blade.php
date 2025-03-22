@@ -6,13 +6,18 @@
   <label id="listbox-label" class="block text-sm/6 font-medium text-gray-900">Languages</label>
   <div class="relative mt-2" x-data="selectMenu" @click="open = !open" @click.away="open = false" @keydown.esc.prevent="open=false" @keydown.up.prevent="arrowUp" @keydown.down.prevent="arrowDown">
     <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
-      <span class="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
-        </svg>
+      <template x-if="elementSelected">
+        <span class="col-start-1 row-start-1 flex items-center gap-3 pr-6" x-html="elementSelected.innerHTML"></span>
+      </template>
+      <template x-if="!elementSelected">
+        <span class="col-start-1 row-start-1 flex items-center gap-3 pr-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
+          </svg>
 
-        <span class="block truncate">Select a Language</span>
-      </span>
+          <span class="block truncate">Select a Language</span>
+        </span>
+      </template>
       <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
         <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
       </svg>
@@ -28,7 +33,7 @@
         From: "opacity-100"
         To: "opacity-0"
     -->
-    <ul class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3" x-show="open">
+    <ul class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm" id="select-options" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3" x-show="open">
       <!--
         Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
 
@@ -67,14 +72,31 @@
     return {
       open:false,
       elementSelected:'',
+      elements:[],
+      init(){
+        this.elements = Array.from(document.getElementById('select-options').children);
+        console.log(this.elements);
+      },
       mouseEnter(el){
         this.elementSelected = el;
       },
       arrowUp(){
-        console.log('up');
+        if(!this.elementSelected){
+          this.elementSelected = this.elements[this.elements.length - 1];
+          return;
+        }
+
+        const index = this.elements.indexOf(this.elementSelected);
+        this.elementSelected = this.elements[index - 1] || this.elements[this.elements.length - 1];
       },
       arrowDown(){
-        console.log('down');
+        if(!this.elementSelected){
+          this.elementSelected = this.elements[0];
+          return;
+        }
+
+        const index = this.elements.indexOf(this.elementSelected);
+        this.elementSelected = this.elements[index + 1] || this.elements[0];
       }
     }
   }
