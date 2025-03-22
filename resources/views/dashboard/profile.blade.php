@@ -40,7 +40,7 @@
         Highlighted: "bg-indigo-600 text-white outline-hidden", Not Highlighted: "text-gray-900"
       -->
       @foreach($languages as $code => $language)
-      <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-option-0" role="option" @mouseenter="mouseEnter($el)" x-bind:class="{'bg-indigo-600 text-white outline-hidden': elementSelected === $el}">
+      <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-option-0" role="option" @mouseenter="mouseEnter($el)" x-bind:class="{'bg-indigo-600 text-white outline-hidden': getElementSelected('{{ $code }}')}" data-language="{{ $code }}">
         <div class="flex items-center">
           <img src="{{ $language['flag'] }}" alt="" class="size-5 shrink-0 rounded-full">
           <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
@@ -75,7 +75,10 @@
       elements:[],
       init(){
         this.elements = Array.from(document.getElementById('select-options').children);
-        console.log(this.elements);
+      },
+      getElementSelected(code){
+        if(!this.elementSelected) return false;
+        return this.elementSelected.getAttribute('data-language') === code;
       },
       mouseEnter(el){
         this.elementSelected = el;
